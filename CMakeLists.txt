@@ -32,7 +32,7 @@ target_link_libraries(${MY_EXE_NAME} PRIVATE OpenGL::GL)
 
 # link the custom built GLFW3 files from https://www.glfw.org/download.html
 target_link_libraries(${MY_EXE_NAME} PRIVATE ${MY_LIBS_LOCN_PREFIX}/glfw3/src/libglfw3.a)
-target_include_directories(${MY_EXE_NAME} PRIVATE ${MY_HOME_DIR}/glfw-3.3.9/include)
+target_include_directories(${MY_EXE_NAME} PRIVATE ${MY_LIBS_LOCN_PREFIX}/glfw-3.3.9/include)
 
 # ---------------------------------------------------------------------------------------------
 # GLAD
