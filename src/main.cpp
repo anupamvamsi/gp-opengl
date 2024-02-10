@@ -27,6 +27,8 @@ int main()
     // GLAD initialization
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
+        std::cerr << "Failed to load OpenGL." << std::endl;
+        glfwTerminate();
         return -1;
     }
 
