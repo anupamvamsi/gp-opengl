@@ -32,6 +32,8 @@ int main()
         return -1;
     }
 
+    glClearColor(0.25f, 0.5f, 0.3f, 1.0f);
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {

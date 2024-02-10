@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++,cmake,c
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,cmake,c
 
+# ignore dirs
+build/
+.vscode/
+
 ### C ###
 # Prerequisites
 *.d
@@ -57,9 +61,6 @@ dkms.conf
 
 ### C++ ###
 # Prerequisites
-
-# build dir
-build/
 
 # Compiled Object files
 *.slo
