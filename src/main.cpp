@@ -2,7 +2,10 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+// GLFW: Callbacks
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+
+void processInput(GLFWwindow *window);
 
 int main()
 {
@@ -56,7 +59,17 @@ int main()
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        // Input
+        // -----
+        processInput(window);
+
+        // Rendering
+        // ---------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
         // Swap buffers and poll IO events (key press/release, mouse events, etc.)
+        // -----------------------------------------------------------------------
         glfwSwapBuffers(window); // swap between front and back buffers? to prevent render flickering issues
         glfwPollEvents();
     }
@@ -67,6 +80,19 @@ int main()
     return 0;
 }
 
+// Process all input
+// -----------------
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        std::cout << "processInput(): closing window." << std::endl;
+        glfwSetWindowShouldClose(window, true);
+    }
+}
+
+// GLFW: Callbacks
+// ---------------
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     std::cout << "framebuffer_size_callback(): (width: " << width << ", height: " << height << ")" << std::endl;
