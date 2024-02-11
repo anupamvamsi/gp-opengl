@@ -2,50 +2,76 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+
 int main()
 {
-    GLFWwindow *window;
-
-    // GLFW initialization
+    // GLFW Init
+    // ---------
     if (!glfwInit())
     {
-        std::cerr << "Failed to initialize GLFW\n";
+        std::cout << "Failed to initialize GLFW!" << std::endl;
         return -1;
     }
 
-    window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+    // Set OpenGL version and Profile (Immediate vs. Core)
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+    // GLFW Window Init
+    // ----------------
+    const int WINDOW_WIDTH = 1024;
+    const int WINDOW_HEIGHT = 768;
+
+    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "learning openGL", nullptr, nullptr);
+    if (window == nullptr)
+    {
+        std::cout << "Failed to create GLFW Window!" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    // Tell GLFW to make the window context the main context on the current thread.
     glfwMakeContextCurrent(window);
 
-    // GLFW window creation
-    if (!window)
-    {
-        std::cerr << "Failed to create GLFW window\n";
-        glfwTerminate();
-        return -1;
-    }
+    // Registering cb function for window resize: cb function called every time a window is resized.
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // GLAD initialization
+    // GLAD Init - Load all OpenGL function pointers
+    // ---------------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cerr << "Failed to load OpenGL." << std::endl;
+        std::cout << "Failed to initialize GLAD!" << std::endl;
         glfwTerminate();
         return -1;
     }
 
-    glClearColor(0.25f, 0.5f, 0.3f, 1.0f);
+    // Registration of callback functions is done after window creation and before the render loop initiation.
+    // -------------------------------------------------------------------------------------------------------
 
-    // Main loop
+    // Render loop
+    // -----------
     while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Your OpenGL rendering code goes here
-
+        // Swap buffers and poll IO events (key press/release, mouse events, etc.)
+        glfwSwapBuffers(window); // swap between front and back buffers? to prevent render flickering issues
         glfwPollEvents();
-        glfwSwapBuffers(window);
     }
 
-    // Cleanup
+    // Clean up GLFW resources
+    // -----------------------
     glfwTerminate();
     return 0;
+}
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    std::cout << "framebuffer_size_callback(): (width: " << width << ", height: " << height << ")" << std::endl;
+
+    // GLint x, GLint y = set locn of the lower left corner of the window.
+    // GLsizei width, GLsizei height = set rendering viewport dimensions in pixels (can be smaller than Window dimensions).
+    glViewport(0, 0, width, height);
 }
